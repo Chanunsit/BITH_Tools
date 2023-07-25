@@ -1,2 +1,0 @@
-Latest Version 1.2
-Added patch note in preferences.
