@@ -18,6 +18,16 @@ class AssignShareMat(bpy.types.Operator):
         index = index.split("/")
         index = index.pop()
         
+        bpy.ops.object.mode_set(mode='OBJECT')
+        bpy.ops.object.editmode_toggle()
+        bpy.ops.mesh.select_all(action='SELECT')
+        bpy.ops.uv.smart_project()
+        bpy.context.area.ui_type = 'UV'
+        bpy.ops.uv.select_all(action='SELECT')
+        bpy.ops.uv.align_rotation(method='GEOMETRY', axis='Z')
+        bpy.ops.uv.align_rotation(method='AUTO')
+        bpy.context.area.ui_type = 'VIEW_3D'
+        
         if bpy.context.space_data.shading.type == 'SOLID':
             bpy.context.space_data.shading.color_type = 'TEXTURE'
         texture_name = index.capitalize()
