@@ -81,7 +81,7 @@ class Updater(Operator):
           fileName = 'a_patch.json'
           G_Modul.update_patch(fileName)
           global patch
-          patch = G_Modul.loadJsonFile("a_patch.json", "patch")
+          patch = G_Modul.loadJsonFile("a_patch", "patch")
           print("All patch : " + G_Modul.list_to_string(patch))
           lastPatch = patch[-1]
           print("Last patch : " + lastPatch[0])

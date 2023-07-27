@@ -225,6 +225,8 @@ def update_addon(self, context, zip_filename):
             downloaded = block_count * block_size
             percent = int((downloaded / total_size) * 100)
             global dlProg
+            if percent > 100:
+                percent = 100
             dlProg = f"Downloaded: {percent}%"
             print(f"Downloaded: {percent}%")
 
@@ -241,9 +243,13 @@ def update_addon(self, context, zip_filename):
                     extracted_files += 1
                     percent = int((extracted_files / total_files) * 100)
                     global extProg
+                    if percent > 100:
+                        percent = 100
                     extProg = f"Extracted: {percent}%"
                     print(f"Extracted: {percent}%")
-
+        else:
+            percent = 100
+            extProg = f"Extracted: {percent}%"
         # Remove the downloaded zip file
         os.remove(zip_filename)
         # Reload the addon module
