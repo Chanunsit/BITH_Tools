@@ -81,7 +81,7 @@ class Updater(Operator):
           fileName = 'a_patch.json'
           G_Modul.update_patch(fileName)
           global patch
-          patch = G_Modul.loadJsonFile("a_patch", "patch")
+          patch = G_Modul.loadJsonFile("a_patch.json", "patch")
           print("All patch : " + G_Modul.list_to_string(patch))
           lastPatch = patch[-1]
           print("Last patch : " + lastPatch[0])
@@ -89,7 +89,7 @@ class Updater(Operator):
                print("Update Now")
           else:
                print("Latest")
-
+          G_Modul.update_patch("patch_note.txt")
           patchNote = G_Modul.read_txt_file("patch_note.txt", "patch")
           checkUpdate = True
           return {'FINISHED'}

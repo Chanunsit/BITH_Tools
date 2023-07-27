@@ -216,7 +216,7 @@ def update_addon(self, context, zip_filename):
     except:
         print("No file update")
     try:
-        UPDATED_ADDON_URL = url = "https://github.com/Chanunsit/BITH_addon/releases/download/BithAddon/" + zip_filename
+        UPDATED_ADDON_URL = url = "https://github.com/Chanunsit/BITH_Tools/releases/download/BITH_Tools/" + zip_filename
         # Get the addon directory and the current addon file path
         addon_dir = os.path.dirname(os.path.realpath(__file__))
         addon_file = os.path.join(addon_dir, "__init__.py")
@@ -255,7 +255,7 @@ def update_addon(self, context, zip_filename):
     
 def update_patch(filename):
     try:
-        UPDATED_ADDON_URL = url = "https://github.com/Chanunsit/BITH_addon/releases/download/BithAddon/" + filename
+        UPDATED_ADDON_URL = url = "https://github.com/Chanunsit/BITH_Tools/releases/download/BITH_Tools/" + filename
         # Get the patch directory
         patch_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "patch")
         # Ensure the "patch" folder exists; if not, create it
