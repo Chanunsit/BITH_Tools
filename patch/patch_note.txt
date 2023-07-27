@@ -1,2 +1,2 @@
-Latest Version 1.2
-Added patch note in preferences.
+Latest Version 1.5
+Added tab on panel and share material tools.

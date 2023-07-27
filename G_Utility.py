@@ -1,4 +1,5 @@
 import bpy
+import os
 from . import G_Modul
 
 class AssignShareMat(bpy.types.Operator):
@@ -14,6 +15,60 @@ class AssignShareMat(bpy.types.Operator):
         mat = G_Modul.create_material(index)
         activeObject.data.materials.append(mat)
         mat.use_nodes = True
+        index = index.split("/")
+        index = index.pop()
+        
+        if bpy.context.space_data.shading.type == 'SOLID':
+            bpy.context.space_data.shading.color_type = 'TEXTURE'
+        texture_name = index.capitalize()
+        texture_path = os.path.join(os.path.dirname(__file__), "TexSurface")
+        texture_file = os.path.join(texture_path, f"{texture_name}.jpg")
+        if os.path.exists(texture_file):
+        # Check if the texture with the desired name already exists
+            existing_texture = bpy.data.textures.get(texture_name)
+        
+        if existing_texture is None:
+            # If the texture doesn't exist, create a new one
+            texture = bpy.data.textures.new(name=texture_name, type='IMAGE')
+            texture.image = bpy.data.images.load(texture_file)
+        else:
+            # If the texture already exists, reuse it
+            texture = existing_texture
+      
+        tree = mat.node_tree
+        
+        for node in tree.nodes:
+            tree.nodes.remove(node)
+        
+        tex_coord = tree.nodes.new(type='ShaderNodeTexCoord')
+        mapping = tree.nodes.new(type='ShaderNodeMapping')
+        image_tex = tree.nodes.new(type='ShaderNodeTexImage')
+        diffuse = tree.nodes.new(type='ShaderNodeBsdfDiffuse')
+        output = tree.nodes.new(type='ShaderNodeOutputMaterial')
+        
+        tree.links.new(tex_coord.outputs['UV'], mapping.inputs['Vector'])
+        tree.links.new(mapping.outputs['Vector'], image_tex.inputs['Vector'])
+        tree.links.new(image_tex.outputs['Color'], diffuse.inputs['Color'])
+        tree.links.new(diffuse.outputs['BSDF'], output.inputs['Surface'])
+        
+        image_tex.image = texture.image
+        print (texture_name)
+        # bpy.data.images[texture_name].use_fake_user = True
+          
+        # add fake user to all images
+        images = bpy.data.images
+        for image in images:
+            image.use_fake_user = True
+        
+        scene = context.scene
+        try:
+            scene.td.units = "1"
+            scene.td.texture_size = "1"
+            bpy.ops.object.preset_set(td_value="2048")
+
+        except:
+            print("Request Texel Density")
+            self.report({"INFO"} ,"Request Texel Density")
 
         return {'FINISHED'}
     
