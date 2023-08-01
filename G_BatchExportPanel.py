@@ -91,9 +91,12 @@ class ExportLocation(Operator):
     @staticmethod
     def save(self, context):
         scene = context.scene
-        global exportLocalList
-        exportLocalList.append(scene.FBXExportFolder)
-        G_Modul.saveJsonFile(exportLocalList, "exportLocalList", "resources")
+        if scene.FBXExportFolder != "":
+            global exportLocalList
+            exportLocalList.append(scene.FBXExportFolder)
+            G_Modul.saveJsonFile(exportLocalList, "exportLocalList", "resources")
+        else:
+            self.report({"INFO"} ,"Please Select Path")
         return {'FINISHED'}
     @staticmethod
     def load(self, context):
