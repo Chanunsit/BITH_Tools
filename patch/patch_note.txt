@@ -1,2 +1,5 @@
 Latest Version 1.5
 Added tab on panel and share material tools.
+Added Export location folder list and Menu "Emport FBX to" in outliner.
+-----------------------------------------------------------------------
+Enjoy!

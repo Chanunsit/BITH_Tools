@@ -1,9 +1,9 @@
 
 bl_info = {
-        "name": "BITH Setup Collisions",
+        "name": "BITH Tools",
         "description": "Setup suface and custom property and check collisions for Enfusion Engine",
         "author": "Gramma Team Thailand",
-        "version": (1, 4),
+        "version": (1, 5),
         "blender": (3, 4, 0),
         "location": "View3D",
         "warning": "", # used for warning icon and text in add-ons panel

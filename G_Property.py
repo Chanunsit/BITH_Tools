@@ -38,6 +38,8 @@ class MyProperties(PropertyGroup):
     description="Share Material"
     )
 
+    exportLocalList : StringProperty(name="Export Location List")
+
 classes = [MyProperties]
 def register():
     for cls in classes:

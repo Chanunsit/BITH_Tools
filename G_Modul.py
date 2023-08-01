@@ -181,10 +181,10 @@ def string_to_list(string):
         print("")
     return list
 
-def saveJsonFile(list, fileName):
-    if not os.path.exists("resources"):
-        os.makedirs("resources")
-    json_file_path = os.path.join("resources", fileName + ".json")
+def saveJsonFile(list, fileName, location):
+    if not os.path.exists(location):
+        os.makedirs(location)
+    json_file_path = os.path.join(location, fileName + ".json")
     with open(json_file_path, "w") as json_file:
         json.dump(list, json_file, indent=4)
         json_file.close()
@@ -294,3 +294,12 @@ def read_txt_file(filename, location):
     except Exception as e:
         print(f"Error occurred while reading the file: {e}")
         return None
+
+
+def refresh_panel():
+    for area in bpy.context.workspace.screens[0].areas:
+                if area.type == 'VIEW_3D':
+                    for region in area.regions:
+                        if region.type == 'UI':
+                            region.tag_redraw()
+                            break

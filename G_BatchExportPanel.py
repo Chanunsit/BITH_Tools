@@ -1,6 +1,17 @@
+import typing
 import bpy
 
-class VIEW3D_PT_BatchExport(bpy.types.Panel):
+from . import G_Modul
+
+from bpy.types import Menu, Operator, Panel
+from bpy.props import (EnumProperty, PointerProperty, StringProperty, FloatVectorProperty, FloatProperty, IntProperty, BoolProperty)
+
+try:
+    exportLocalList = G_Modul.loadJsonFile("exportLocalList", "resources")
+except:
+    exportLocalList = []
+
+class VIEW3D_PT_BatchExport(Panel):
     bl_label = "Export Path"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
@@ -12,11 +23,103 @@ class VIEW3D_PT_BatchExport(bpy.types.Panel):
         layout = self.layout
         row = layout.row()
         row.prop(scene, 'FBXExportFolder',)
+        box = layout.box()
+        row = box.row()
+        row.operator("object.export_location", text="Load").action = "load"
+        row.operator("object.export_location", text="Save").action = "save"
+        global exportLocalList
+        if exportLocalList is not None:
+            for i in range(len(exportLocalList)):
+                row = box.row()
+                loc = exportLocalList[i].split("\\")
+                loc = "..." + loc[-3] + " \\ "  + loc[-2]
+                row.label(text=loc)
+                bt = row.operator("object.export_location", text="", icon="FOLDER_REDIRECT")
+                bt.action = "set"
+                bt.index = i
+                bt = row.operator("object.export_location", text="", icon="TRASH")
+                bt.action = "delete"
+                bt.index = i
+                
+
+def minimizeLoc(loc):
+    loc = loc.split("\\")
+    loc = "..." + loc[-3] + " \\ "  + loc[-2]
+    return loc
+
+def locUpdate(self, context):
+    items = [(loc, minimizeLoc(loc), "") for i, loc in enumerate(exportLocalList)]
+    #self.location = items[0][0] if items else ""
+    return items
+
+class ExportLocation(Operator):
+    bl_idname = "object.export_location"
+    bl_label = "Export Location"
+
+    action : StringProperty(name="Action")
+    index : IntProperty(name="Index")
+   
+    location : EnumProperty(
+        name="Property",
+        items=locUpdate,
+        update=locUpdate  # Add the update function
+    )
+
+    def execute(self, context):
+        action = self.action
+        if action == "save":
+            self.save(self, context)
+        elif action == "load":
+            self.load(self, context)
+        elif action == "delete":
+            self.delete(self, context)
+        elif action == "set":
+            self.set(self, context)
+        elif action == "export to":
+            scene = context.scene
+            scene.FBXExportFolder = self.location
+            bpy.ops.collection.batch_export_fbx()
+            G_Modul.refresh_panel(
+            
+            )
+        return {'FINISHED'}
+    @staticmethod
+    def save(self, context):
+        scene = context.scene
+        global exportLocalList
+        exportLocalList.append(scene.FBXExportFolder)
+        G_Modul.saveJsonFile(exportLocalList, "exportLocalList", "resources")
+        return {'FINISHED'}
+    @staticmethod
+    def load(self, context):
+        global exportLocalList
+        exportLocalList = G_Modul.loadJsonFile("exportLocalList", "resources")
+        return {'FINISHED'}
+    @staticmethod
+    def delete(self, context):
+        for i in range(len(exportLocalList)):
+            if i == self.index:
+                exportLocalList.pop(i)
+        G_Modul.saveJsonFile(exportLocalList, "exportLocalList", "resources")
+        return {'FINISHED'}
+    @staticmethod
+    def set(self, context):
+        scene = context.scene
+        scene.FBXExportFolder = exportLocalList[self.index]
+        return {'FINISHED'}
+
+def export_location(self, context):
+    self.layout.operator_menu_enum("object.export_location", property="location", text = "Export FBX to ").action = "export to"
+
 
 def register():
     bpy.utils.register_class(VIEW3D_PT_BatchExport)
+    bpy.utils.register_class(ExportLocation)
+    bpy.types.OUTLINER_MT_collection.prepend(export_location)
 
 
 
 def unregister():
     bpy.utils.unregister_class(VIEW3D_PT_BatchExport)
+    bpy.utils.unregister_class(ExportLocation)
+    bpy.types.OUTLINER_MT_collection.remove(export_location)
