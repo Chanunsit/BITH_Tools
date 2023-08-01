@@ -21,25 +21,29 @@ class VIEW3D_PT_BatchExport(Panel):
     def draw(self, context):
         scene = context.scene
         layout = self.layout
-        row = layout.row()
-        row.prop(scene, 'FBXExportFolder',)
-        box = layout.box()
-        row = box.row()
-        row.operator("object.export_location", text="Load").action = "load"
-        row.operator("object.export_location", text="Save").action = "save"
-        global exportLocalList
-        if exportLocalList is not None:
-            for i in range(len(exportLocalList)):
-                row = box.row()
-                loc = exportLocalList[i].split("\\")
-                loc = "..." + loc[-3] + " \\ "  + loc[-2]
-                row.label(text=loc)
-                bt = row.operator("object.export_location", text="", icon="FOLDER_REDIRECT")
-                bt.action = "set"
-                bt.index = i
-                bt = row.operator("object.export_location", text="", icon="TRASH")
-                bt.action = "delete"
-                bt.index = i
+        if scene.FBXExportFolder is not None:
+            row = layout.row()
+            row.prop(scene, 'FBXExportFolder',)
+            box = layout.box()
+            row = box.row()
+            row.operator("object.export_location", text="Load").action = "load"
+            row.operator("object.export_location", text="Save").action = "save"
+            global exportLocalList
+            if exportLocalList is not None:
+                for i in range(len(exportLocalList)):
+                    row = box.row()
+                    loc = exportLocalList[i].split("\\")
+                    loc = "..." + loc[-3] + " \\ "  + loc[-2]
+                    row.label(text=loc)
+                    bt = row.operator("object.export_location", text="", icon="FOLDER_REDIRECT")
+                    bt.action = "set"
+                    bt.index = i
+                    bt = row.operator("object.export_location", text="", icon="TRASH")
+                    bt.action = "delete"
+                    bt.index = i
+        else:
+            row = layout.row()
+            row.label(text="Request Enfusion Blender Tools")
                 
 
 def minimizeLoc(loc):
@@ -76,12 +80,13 @@ class ExportLocation(Operator):
         elif action == "set":
             self.set(self, context)
         elif action == "export to":
-            scene = context.scene
-            scene.FBXExportFolder = self.location
-            bpy.ops.collection.batch_export_fbx()
-            G_Modul.refresh_panel(
-            
-            )
+            try:
+                scene = context.scene
+                scene.FBXExportFolder = self.location
+                bpy.ops.collection.batch_export_fbx()
+                G_Modul.refresh_panel()
+            except:
+                self.report({"INFO"} ,"Request Enfusion Blender Tools")
         return {'FINISHED'}
     @staticmethod
     def save(self, context):
@@ -109,7 +114,9 @@ class ExportLocation(Operator):
         return {'FINISHED'}
 
 def export_location(self, context):
-    self.layout.operator_menu_enum("object.export_location", property="location", text = "Export FBX to ").action = "export to"
+    scene = context.scene
+    if scene.FBXExportFolder is not None:
+        self.layout.operator_menu_enum("object.export_location", property="location", text = "Export FBX to ").action = "export to"
 
 
 def register():

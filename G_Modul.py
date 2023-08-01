@@ -182,12 +182,16 @@ def string_to_list(string):
     return list
 
 def saveJsonFile(list, fileName, location):
-    if not os.path.exists(location):
-        os.makedirs(location)
-    json_file_path = os.path.join(location, fileName + ".json")
-    with open(json_file_path, "w") as json_file:
-        json.dump(list, json_file, indent=4)
-        json_file.close()
+    addon_path = os.path.dirname(__file__)
+    directory = os.path.join(addon_path, location)
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    file_path = os.path.join(directory, fileName + ".json")
+
+    with open(file_path, 'w') as f:
+        json.dump(list, f)
         
 def loadJsonFile(fileName, location):
     addon_directory = os.path.dirname(__file__)
