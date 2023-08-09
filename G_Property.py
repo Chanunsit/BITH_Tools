@@ -17,10 +17,11 @@ class MyProperties(PropertyGroup):
         )
     
     safetyMode : BoolProperty(name="Safety Mode", default=True)
-    
     report_surface = [""]
     report_property = [""]
     report_named = [""]
+    
+    ExportLocalList:StringProperty(name="Export Local List",default= "")
     text_Surface:StringProperty(name="text",default= "")
     text_Property:StringProperty(name="text",default= "")
     text_Named:StringProperty(name="text",default= "")

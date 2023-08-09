@@ -6,10 +6,12 @@ from . import G_Modul
 from bpy.types import Menu, Operator, Panel
 from bpy.props import (EnumProperty, PointerProperty, StringProperty, FloatVectorProperty, FloatProperty, IntProperty, BoolProperty)
 
-try:
-    exportLocalList = G_Modul.loadJsonFile("exportLocalList", "resources")
-except:
-    exportLocalList = []
+# try:
+#     bpy.ops.object.export_location(action="load")
+#     # exportLocalList = G_Modul.string_to_list(context.scene.g_tools.ExportLocalList)
+    
+# except:
+exportLocalList = []
 
 class VIEW3D_PT_BatchExport(Panel):
     bl_label = "Export Path"
@@ -24,12 +26,14 @@ class VIEW3D_PT_BatchExport(Panel):
         if scene.FBXExportFolder is not None:
             row = layout.row()
             row.prop(scene, 'FBXExportFolder',)
-            box = layout.box()
-            row = box.row()
-            row.operator("object.export_location", text="Load").action = "load"
-            row.operator("object.export_location", text="Save").action = "save"
+            
+            row = layout.row()
+           
+            row.operator("object.export_location", text="Load", icon="DISC").action = "load"
+            row.operator("object.export_location", text="Save", icon="SOLO_ON").action = "save"
             global exportLocalList
-            if exportLocalList is not None:
+            if exportLocalList is not None and exportLocalList != []:
+                box = layout.box()
                 for i in range(len(exportLocalList)):
                     row = box.row()
                     loc = exportLocalList[i].split("\\")
@@ -94,21 +98,22 @@ class ExportLocation(Operator):
         if scene.FBXExportFolder != "":
             global exportLocalList
             exportLocalList.append(scene.FBXExportFolder)
-            G_Modul.saveJsonFile(exportLocalList, "exportLocalList", "resources")
+            scene.g_tools.ExportLocalList = G_Modul.list_to_string(exportLocalList)
+            # G_Modul.saveJsonFile(exportLocalList, "exportLocalList", "resources")
         else:
             self.report({"INFO"} ,"Please Select Path")
         return {'FINISHED'}
     @staticmethod
     def load(self, context):
         global exportLocalList
-        exportLocalList = G_Modul.loadJsonFile("exportLocalList", "resources")
+        exportLocalList = G_Modul.string_to_list(context.scene.g_tools.ExportLocalList)
         return {'FINISHED'}
     @staticmethod
     def delete(self, context):
         for i in range(len(exportLocalList)):
             if i == self.index:
                 exportLocalList.pop(i)
-        G_Modul.saveJsonFile(exportLocalList, "exportLocalList", "resources")
+        context.scene.g_tools.ExportLocalList = G_Modul.list_to_string(exportLocalList)
         return {'FINISHED'}
     @staticmethod
     def set(self, context):
@@ -123,6 +128,7 @@ def export_location(self, context):
 
 
 def register():
+    
     bpy.utils.register_class(VIEW3D_PT_BatchExport)
     bpy.utils.register_class(ExportLocation)
     bpy.types.OUTLINER_MT_collection.prepend(export_location)

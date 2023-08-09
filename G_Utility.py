@@ -18,7 +18,7 @@ class AssignShareMat(bpy.types.Operator):
         mat.use_nodes = True
         index = index.split("/")
         index = index.pop()
-        if index == "Common/Materials/Default":
+        if index == "Default":
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.ops.object.editmode_toggle()
             bpy.ops.mesh.select_all(action='SELECT')
