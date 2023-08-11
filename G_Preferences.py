@@ -32,11 +32,11 @@ class PT_Preferences(AddonPreferences):
                if confirm:
                     row.operator(Updater.bl_idname, text="Yes").action = "yes"
                     row.operator(Updater.bl_idname, text="No").action = "no"
-               else:
-                    for ver in patch:
-                         bt = row.operator(Updater.bl_idname, text=ver[0])
-                         bt.action = "update"
-                         bt.index = ver[0]
+               # else:
+               #      for ver in patch:
+               #           bt = row.operator(Updater.bl_idname, text=ver[0])
+               #           bt.action = "update"
+               #           bt.index = ver[0]
                
                if patchNote is not None and updated == False:
                     for line in patchNote:
@@ -44,7 +44,7 @@ class PT_Preferences(AddonPreferences):
                          row.scale_y = 0.5
                          row.label(text=line)
                if updated:
-                    row = box.row()
+                    #row = box.row()
                     row.scale_y = 0.5
                     row.label(text=text)
           row = layout.row()

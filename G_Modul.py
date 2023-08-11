@@ -258,8 +258,13 @@ def update_addon(self, context, zip_filename):
         # Remove the downloaded zip file
         os.remove(zip_filename)
         copy_and_move_files("BITH_Tools-main")
-        
-        shutil.rmtree("BITH_Tools-main")
+        # folder_path = os.getcwd()
+        # print(folder_path+"\\BITH_Tools-main")
+        try:
+            os.rmdir("BITH_Tools-main")
+        except:
+            print("Error delete BITH_Tools-main folder")
+        #shutil.rmtree("BITH_Tools-main")
         # Reload the addon module
         #bpy.ops.script.reload()
         self.report({'INFO'}, "Addon Updated. Please Restart Blender.")
@@ -323,7 +328,8 @@ def copy_and_move_files(subfolder_name):
             file_path = os.path.join(subfolder_path, filename)
             if os.path.isfile(file_path):
                 new_file_path = os.path.join(parent_folder_path, filename)
-                shutil.copy(file_path, new_file_path)
+                #shutil.copy(file_path, new_file_path)
+                shutil.move(file_path, new_file_path)
 
         print("Files copied and moved successfully.")
     except Exception as e:
