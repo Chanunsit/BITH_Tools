@@ -1,6 +1,7 @@
 import bpy
 import json
 import os
+import shutil
 import urllib.request
 import zipfile
 import json
@@ -220,7 +221,7 @@ def update_addon(self, context, zip_filename):
     except:
         print("No file update")
     try:
-        UPDATED_ADDON_URL = url = "https://github.com/Chanunsit/BITH_Tools/releases/download/BITH_Tools/" + zip_filename
+        UPDATED_ADDON_URL = url = "https://github.com/Chanunsit/BITH_Tools/archive/refs/heads/" + zip_filename
         # Get the addon directory and the current addon file path
         addon_dir = os.path.dirname(os.path.realpath(__file__))
         addon_file = os.path.join(addon_dir, "__init__.py")
@@ -229,8 +230,8 @@ def update_addon(self, context, zip_filename):
             downloaded = block_count * block_size
             percent = int((downloaded / total_size) * 100)
             global dlProg
-            if percent > 100:
-                percent = 100
+            
+            percent = 100
             dlProg = f"Downloaded: {percent}%"
             print(f"Downloaded: {percent}%")
 
@@ -256,6 +257,9 @@ def update_addon(self, context, zip_filename):
             extProg = f"Extracted: {percent}%"
         # Remove the downloaded zip file
         os.remove(zip_filename)
+        copy_and_move_files("BITH_Tools-main")
+        
+        shutil.rmtree("BITH_Tools-main")
         # Reload the addon module
         #bpy.ops.script.reload()
         self.report({'INFO'}, "Addon Updated. Please Restart Blender.")
@@ -307,3 +311,28 @@ def refresh_panel():
                         if region.type == 'UI':
                             region.tag_redraw()
                             break
+                        
+def copy_and_move_files(subfolder_name):
+    try:
+        # Get the current working directory
+        current_dir = os.getcwd()
+        print(current_dir)
+        # Create a path to the subfolder
+        subfolder_path = os.path.join(current_dir, subfolder_name)
+        print(subfolder_path)
+
+        # Get a list of all files in the subfolder
+        files_to_copy = [f for f in os.listdir(subfolder_path) if os.path.isfile(os.path.join(subfolder_path, f))]
+
+        # Create a path to the original folder
+        original_folder_path = current_dir
+
+        # Copy files from subfolder to the original folder
+        for file_name in files_to_copy:
+            src_path = os.path.join(subfolder_path, file_name)
+            dest_path = os.path.join(original_folder_path, file_name)
+            shutil.copy(src_path, dest_path)
+
+        print("Files copied and moved successfully.")
+    except Exception as e:
+        print("An error occurred:", str(e))

@@ -75,8 +75,9 @@ class Updater(Operator):
           return {'FINISHED'}
      @staticmethod
      def check(self, context):
-          global updated, patchNote, checkUpdate
+          global updated, patchNote, checkUpdate, confirm
           updated = False
+          confirm = True
           print("Addon version : " + G_Modul.get_addon_version())
           fileName = 'a_patch.json'
           G_Modul.update_patch(fileName)
@@ -104,7 +105,8 @@ class Updater(Operator):
      @staticmethod
      def yes(self, context):
           #bpy.ops.wm.console_toggle()
-          fileName = "bith_tools_" + selectVer  + ".zip"
+          #fileName = "bith_tools_" + selectVer  + ".zip"
+          fileName = "main.zip"
           G_Modul.update_addon(self, context,fileName)
           global text, confirm, updated
           text = "Addon  " + G_Modul.dlProg + "  and  "  + G_Modul.extProg + "  Please Restart Blender  "
