@@ -314,24 +314,16 @@ def refresh_panel():
                         
 def copy_and_move_files(subfolder_name):
     try:
-        # Get the current working directory
-        current_dir = os.getcwd()
-        print(current_dir)
-        # Create a path to the subfolder
-        subfolder_path = os.path.join(current_dir, subfolder_name)
-        print(subfolder_path)
-
-        # Get a list of all files in the subfolder
-        files_to_copy = [f for f in os.listdir(subfolder_path) if os.path.isfile(os.path.join(subfolder_path, f))]
-
-        # Create a path to the original folder
-        original_folder_path = current_dir
-
-        # Copy files from subfolder to the original folder
-        for file_name in files_to_copy:
-            src_path = os.path.join(subfolder_path, file_name)
-            dest_path = os.path.join(original_folder_path, file_name)
-            shutil.copy(src_path, dest_path)
+        addon_path = os.path.dirname(__file__)
+        subfolder_path = os.path.join(addon_path, subfolder_name)
+        parent_folder_path = os.path.dirname(subfolder_path)
+        
+        # Copy files from subfolder to parent folder
+        for filename in os.listdir(subfolder_path):
+            file_path = os.path.join(subfolder_path, filename)
+            if os.path.isfile(file_path):
+                new_file_path = os.path.join(parent_folder_path, filename)
+                shutil.copy(file_path, new_file_path)
 
         print("Files copied and moved successfully.")
     except Exception as e:
