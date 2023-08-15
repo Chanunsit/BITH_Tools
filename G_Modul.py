@@ -5,6 +5,7 @@ import shutil
 import urllib.request
 import zipfile
 import json
+import textwrap
 #import requests
 
 from . import G_Geometry_Prams
@@ -334,3 +335,13 @@ def copy_and_move_files(subfolder_name):
         print("Files copied and moved successfully.")
     except Exception as e:
         print("An error occurred:", str(e))
+        
+        
+def TextWrap(context, text, parent, line_height):
+    chars = int(context.region.width / 7)   # 7 pix on 1 character
+    wrapper = textwrap.TextWrapper(width=chars)
+    text_lines = wrapper.wrap(text=text)
+    for text_line in text_lines:
+        row = parent.row(align=True)
+        row.label(text=text_line)
+        row.scale_y = line_height

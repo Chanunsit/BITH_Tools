@@ -1,4 +1,5 @@
 import bpy
+import textwrap
 from . import G_Modul
 from . import G_Icon_reg
 from . import G_Web_info
@@ -217,21 +218,40 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
             row = layout.row()
        #-----------------------------------------Web information---------------------------------------------
         elif g_tools.toolTab == "INFO":
-            box = layout.box()
-            box.label(text="Arma4")
-            row = box.row()
             layout = self.layout
-
-            # Dropdown list to select a website
-            row.prop(context.scene, "selected_website_arma4", text="")
-            row = box.row()
-            # Display description of the selected website
-            selected_website = bpy.context.scene.selected_website_arma4
-            selected_description = next(desc for url, name, desc in G_Web_info.website_arma4 if url == selected_website)
-            row.label(text=selected_description)
-            row = box.row()
-            # Button to open the selected website
-            row.operator("addon.open_selected_website_arma4", text="Open Website")
+            row = layout.row()
+            row = layout.row(align=True)
+            row.alignment = 'LEFT'
+            
+            row.label(text="Information : ")
+            row = layout.row()
+            row.prop(g_tools, "infoTab", expand=True)
+            row = layout.row()
+            if g_tools.infoTab == "Arma":
+                layout.prop(context.scene, "selected_website_arma4", text="")
+                box = layout.box()
+                selected_website = bpy.context.scene.selected_website_arma4
+                selected_description = next(desc for url, name, desc in G_Web_info.website_arma4 if url == selected_website)
+                G_Modul.TextWrap(context, selected_description, box, 0.5)
+                row = layout.row()
+                row.operator("addon.open_selected_website_arma4", text="Open Website")
+            elif g_tools.infoTab == "DayZ":
+                layout.prop(context.scene, "selected_website_dayz", text="")
+                box = layout.box()
+                selected_website = bpy.context.scene.selected_website_dayz
+                selected_description = next(desc for url, name, desc in G_Web_info.website_dayZ if url == selected_website)
+                G_Modul.TextWrap(context, selected_description, box, 0.5)
+                row = layout.row()
+                row.operator("addon.open_selected_website_dayz", text="Open Website")
+            elif g_tools.infoTab == "Market":
+                layout.prop(context.scene, "selected_website_market", text="")
+                box = layout.box()
+                selected_website = bpy.context.scene.selected_website_market
+                selected_description = next(desc for url, name, desc in G_Web_info.website_market if url == selected_website)
+                G_Modul.TextWrap(context, selected_description, box, 0.5)
+                row = layout.row()
+                row.operator("addon.open_selected_website_market", text="Open Website")
+            
 
 
 def register():

@@ -4,7 +4,7 @@ from bpy.types import Scene
 from bpy.types import (PropertyGroup)
 from bpy.props import (EnumProperty, PointerProperty, StringProperty, FloatVectorProperty, FloatProperty, IntProperty, BoolProperty)
 
-from . import G_Modul
+from . import G_Modul, G_Icon_reg
 
 
 class MyProperties(PropertyGroup):
@@ -39,8 +39,17 @@ class MyProperties(PropertyGroup):
     items=[(id, label, "") for i, (id, label) in enumerate(shareMatList)],
     description="Share Material"
     )
+    
+    infoTab : EnumProperty(
+        name="Tab",
+        items = [("Arma", "Arma", "", G_Icon_reg.custom_icons["arma"].icon_id, 1),
+                 ("DayZ", "DayZ", "", G_Icon_reg.custom_icons["dayz"].icon_id, 2),
+                 ("Market", "Market", "", G_Icon_reg.custom_icons["market"].icon_id, 3)
+                 ]
+        )
 
     exportLocalList : StringProperty(name="Export Location List")
+    
 
 classes = [MyProperties]
 def register():
