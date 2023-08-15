@@ -2,6 +2,7 @@ import bpy
 import json
 import os
 import shutil
+import distutils
 import urllib.request
 import zipfile
 import json
@@ -258,11 +259,15 @@ def update_addon(self, context, zip_filename):
             extProg = f"Extracted: {percent}%"
         # Remove the downloaded zip file
         os.remove(zip_filename)
-        copy_and_move_files("BITH_Tools-main")
+        src  = os.path.join(os.path.dirname(__file__), "BITH_Tools-main")
+        copy_and_move_files(src)
         # folder_path = os.getcwd()
         # print(folder_path+"\\BITH_Tools-main")
         try:
-            os.rmdir("BITH_Tools-main")
+            #os.rmdir("BITH_Tools-main")
+            src  = os.path.join(os.path.dirname(__file__), "BITH_Tools-main")
+            shutil.rmtree(src)
+            print("Delete BITH_Tools-main folder")
         except:
             print("Error delete BITH_Tools-main folder")
         #shutil.rmtree("BITH_Tools-main")
@@ -318,19 +323,16 @@ def refresh_panel():
                             region.tag_redraw()
                             break
                         
-def copy_and_move_files(subfolder_name):
+def copy_and_move_files(src):
     try:
-        addon_path = os.path.dirname(__file__)
-        subfolder_path = os.path.join(addon_path, subfolder_name)
-        parent_folder_path = os.path.dirname(subfolder_path)
-        
-        # Copy files from subfolder to parent folder
-        for filename in os.listdir(subfolder_path):
-            file_path = os.path.join(subfolder_path, filename)
-            if os.path.isfile(file_path):
-                new_file_path = os.path.join(parent_folder_path, filename)
-                #shutil.copy(file_path, new_file_path)
-                shutil.move(file_path, new_file_path)
+        dst  = os.path.dirname(os.path.realpath(__file__))
+        files = os.listdir(src)
+
+        print(src)
+        print(files)
+        print(dst)
+
+        distutils.dir_util.copy_tree(src, dst)
 
         print("Files copied and moved successfully.")
     except Exception as e:
