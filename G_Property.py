@@ -12,7 +12,8 @@ class MyProperties(PropertyGroup):
         name="Tab",
         items = [("GEO", "Geometry", ""),
                  ("LOD", "LOD", ""),
-                 ("UTIL", "Utility", "")
+                 ("UTIL", "Utility", ""),
+                 ("INFO", "Info", "")
                  ]
         )
     

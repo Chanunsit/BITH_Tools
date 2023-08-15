@@ -24,7 +24,7 @@ from . import G_LODAnalyze
 from . import G_Preferences
 from . import G_Utility
 from . import G_Modul
-
+from . import G_Web_info
 
 
 
@@ -44,6 +44,7 @@ def register():
      G_LODAnalyze.register()
      G_BatchExportPanel.register()
      G_Utility.register()
+     G_Web_info.register()
      
      G_Modul.addon_version = addon_version_string
      
@@ -58,6 +59,8 @@ def unregister():
      G_LODAnalyze.unregister()
      G_BatchExportPanel.unregister()
      G_Utility.unregister()
+     G_Web_info.unregister()
+     
      
     
 

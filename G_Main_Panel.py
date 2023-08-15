@@ -1,7 +1,7 @@
 import bpy
 from . import G_Modul
 from . import G_Icon_reg
-
+from . import G_Web_info
 
 class VIEW3D_PT_MainPanel(bpy.types.Panel):
     bl_label = "Setup Geometry"
@@ -215,8 +215,24 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
             row.prop(g_tools, "shareMat", text="", icon="MATERIAL")
             row.operator("object.assign_share_material", text="", icon="MOD_LINEART").index = g_tools.shareMat
             row = layout.row()
-       
- 
+       #-----------------------------------------Web information---------------------------------------------
+        elif g_tools.toolTab == "INFO":
+            box = layout.box()
+            box.label(text="Arma4")
+            row = box.row()
+            layout = self.layout
+
+            # Dropdown list to select a website
+            row.prop(context.scene, "selected_website_arma4", text="")
+            row = box.row()
+            # Display description of the selected website
+            selected_website = bpy.context.scene.selected_website_arma4
+            selected_description = next(desc for url, name, desc in G_Web_info.website_arma4 if url == selected_website)
+            row.label(text=selected_description)
+            row = box.row()
+            # Button to open the selected website
+            row.operator("addon.open_selected_website_arma4", text="Open Website")
+
 
 def register():
     bpy.utils.register_class(VIEW3D_PT_MainPanel)
