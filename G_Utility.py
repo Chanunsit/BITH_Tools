@@ -21,7 +21,7 @@ class AssignShareMat(bpy.types.Operator):
         if index == "Default":
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.ops.object.editmode_toggle()
-            bpy.ops.mesh.select_all(action='SELECT')
+            # bpy.ops.mesh.select_all(action='SELECT')
             bpy.ops.uv.smart_project()
             bpy.context.area.ui_type = 'UV'
             bpy.ops.uv.select_all(action='SELECT')
