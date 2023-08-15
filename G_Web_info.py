@@ -80,6 +80,10 @@ website_market = [
     ("https://bohemiainteractive.sharepoint.com/sites/art/Sources/Forms/AllItems.aspx?newTargetListUrl=%2Fsites%2Fart%2FSources&viewpath=%2Fsites%2Fart%2FSources%2FForms%2FAllItems%2Easpx&id=%2Fsites%2Fart%2FSources%2FAddons&viewid=5f229a07%2Da329%2D46e7%2Da3a5%2D33d44e47ab74",
     "From BI",
     "Addon in this link has purchased from Bohemie Interactive"),
+
+    ("https://drive.google.com/drive/folders/1r73DZ7QPJecxSL8oz-RDXR2ZMXIrFFqr?usp=sharing",
+    "DuckX Tools",
+    "Utility Addon $/nshotcut D $/n$/hCreated by Kanong Manuree[wAy]")
 ]
 
 # Properties for storing the selected website and its description

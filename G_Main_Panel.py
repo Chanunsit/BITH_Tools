@@ -5,7 +5,7 @@ from . import G_Icon_reg
 from . import G_Web_info
 
 class VIEW3D_PT_MainPanel(bpy.types.Panel):
-    bl_label = "Setup Geometry"
+    bl_label = "BITH Tools"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = '💠'
@@ -18,7 +18,10 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
         row = layout.row()
 
         #-----------------------------------------Geometry---------------------------------------------
+        
         if g_tools.toolTab == "GEO":
+            row = layout.row()
+            row.label(text="Setup Geometry")
             box = layout.box()
             row = box.row()
             row.prop(scene, "layer_preset",text="", icon="PREFERENCES",expand=False)
@@ -187,6 +190,9 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
 
         #-----------------------------------------LOD---------------------------------------------
         elif g_tools.toolTab == "LOD":
+            row = layout.row()
+            row.label(text="LOD Tools")
+            row = layout.row()
             row.operator("object.lod_analyze").action = "analyze"
         
             if g_tools.report_lod and g_tools.report_lod != "[]" and g_tools.report_tri and g_tools.report_tri != "[]":
@@ -210,6 +216,8 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
 
         #-----------------------------------------Utility---------------------------------------------
         elif g_tools.toolTab == "UTIL":
+            row = layout.row()
+            row.label(text="Utility Tools")
             box = layout.box()
             box.label(text="Share Material")
             row = box.row()
@@ -218,11 +226,9 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
             row = layout.row()
        #-----------------------------------------Web information---------------------------------------------
         elif g_tools.toolTab == "INFO":
-            layout = self.layout
             row = layout.row()
-            row = layout.row(align=True)
-            row.alignment = 'LEFT'
-            
+            #row = layout.row(align=True)
+            #row.alignment = 'LEFT'
             row.label(text="Information : ")
             row = layout.row()
             row.prop(g_tools, "infoTab", expand=True)

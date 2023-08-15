@@ -340,10 +340,15 @@ def copy_and_move_files(src):
         
         
 def TextWrap(context, text, parent, line_height):
-    chars = int(context.region.width / 7)   # 7 pix on 1 character
-    wrapper = textwrap.TextWrapper(width=chars)
-    text_lines = wrapper.wrap(text=text)
-    for text_line in text_lines:
-        row = parent.row(align=True)
-        row.label(text=text_line)
-        row.scale_y = line_height
+    texts = text.split("$/n")
+    for text in texts:
+        chars = int(context.region.width / 7)   # 7 pix on 1 character
+        wrapper = textwrap.TextWrapper(width=chars)
+        text_lines = wrapper.wrap(text=text)
+        for text_line in text_lines:
+            row = parent.row(align=True)
+            if "$/h" in text_line:
+                row.alert = True
+                text_line = text_line.replace("$/h","")
+            row.label(text=text_line)
+            row.scale_y = line_height
