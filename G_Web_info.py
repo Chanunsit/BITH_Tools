@@ -77,9 +77,9 @@ class OpenSelectedWebsiteDayZ(bpy.types.Operator):
 #========================================================================================================================#
 
 website_market = [
-    ("https://confluence.bistudio.com/display/ARMA4/Art+Guidelines#tab-STRUCTURES",
-    "Market",
-    "MarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarketMarket"),
+    ("https://bohemiainteractive.sharepoint.com/sites/art/Sources/Forms/AllItems.aspx?newTargetListUrl=%2Fsites%2Fart%2FSources&viewpath=%2Fsites%2Fart%2FSources%2FForms%2FAllItems%2Easpx&id=%2Fsites%2Fart%2FSources%2FAddons&viewid=5f229a07%2Da329%2D46e7%2Da3a5%2D33d44e47ab74",
+    "From BI",
+    "Addon in this link has purchased from Bohemie Interactive"),
 ]
 
 # Properties for storing the selected website and its description
