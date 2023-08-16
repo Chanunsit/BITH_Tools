@@ -4,7 +4,7 @@ import bpy
 website_arma4 = [
     ("https://confluence.bistudio.com/display/ARMA4/Art+Guidelines#tab-STRUCTURES",
     "Art Guidelines",
-    "All infomation and rule Art for armma4. You should know this!"),
+    "All infomation and rule Art for armma4. $/nYou should know this!"),
 
     ("https://confluence.bistudio.com/display/~mario/Arma4+modeling+and+texturing+rules+for+houses",
     "Rules for houses",
@@ -53,7 +53,7 @@ class OpenSelectedWebsiteArma(bpy.types.Operator):
 website_dayZ = [
     ("https://confluence.bistudio.com/display/ARMA4/Art+Guidelines#tab-STRUCTURES",
     "DayZ",
-    "DayZDayZDayZDayZDayZDayZDayZDayZDayZDayZDayZDayZDayZDayZDayZDayZDayZ"),
+    "Day ZDay ZDay ZDay ZDay $/n$/sZDay ZDay ZDay ZDay ZDay ZDay ZDay ZDay $/n$/hZDayZDayZDayZDayZ"),
 ]
 
 # Properties for storing the selected website and its description

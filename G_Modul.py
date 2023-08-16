@@ -345,6 +345,14 @@ def TextWrap(context, text, parent, line_height):
         chars = int(context.region.width / 7)   # 7 pix on 1 character
         wrapper = textwrap.TextWrapper(width=chars)
         text_lines = wrapper.wrap(text=text)
+        if "$/h" in text_lines[0]:
+            text_lines[0] = text_lines[0].replace("$/h","")
+            for i in range(len(text_lines)):
+                text_lines[i] = "$/h" + text_lines[i]
+        if "$/s" in text_lines[0]:
+            text_lines[0] = text_lines[0].replace("$/s","")
+            for i in range(len(text_lines)):
+                text_lines[i] = "$/s" + text_lines[i]
         for text_line in text_lines:
             row = parent.row(align=True)
             if "$/h" in text_line:

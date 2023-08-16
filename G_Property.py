@@ -17,7 +17,7 @@ class MyProperties(PropertyGroup):
                  ]
         )
     
-    safetyMode : BoolProperty(name="Safety Mode", default=True)
+    safetyMode : BoolProperty(name="Safety Mode", default=False)
     report_surface = [""]
     report_property = [""]
     report_named = [""]
