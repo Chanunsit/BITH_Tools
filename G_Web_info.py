@@ -83,7 +83,7 @@ website_market = [
 
     ("https://drive.google.com/drive/folders/1r73DZ7QPJecxSL8oz-RDXR2ZMXIrFFqr?usp=sharing",
     "DuckX Tools",
-    "Utility Addon $/nshotcut D $/n$/hCreated by Kanong Manuree[wAy]")
+    "Utility Addon $/n$/sshotcut D $/n$/hCreated by Kanong Manuree[wAy]")
 ]
 
 # Properties for storing the selected website and its description

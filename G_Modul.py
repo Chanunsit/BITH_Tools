@@ -350,5 +350,8 @@ def TextWrap(context, text, parent, line_height):
             if "$/h" in text_line:
                 row.alert = True
                 text_line = text_line.replace("$/h","")
+            if "$/s" in text_line:
+                row.enabled = False
+                text_line = text_line.replace("$/s","") 
             row.label(text=text_line)
             row.scale_y = line_height
