@@ -1,11 +1,13 @@
 import bpy
 
+
 import time
 
 from bpy.types import Menu, Operator, Panel, AddonPreferences, PropertyGroup
 from bpy.props import (EnumProperty, PointerProperty, StringProperty, FloatVectorProperty, FloatProperty, IntProperty, BoolProperty)
 
 from . import G_Modul
+from . import G_Geometry_Prams
 
 
 confirm = False
@@ -24,6 +26,11 @@ class PT_Preferences(AddonPreferences):
           scene = context.scene
           g_tools = scene.g_tools
           layout = self.layout
+          box = layout.box()
+          box.label(text="Materials Path")
+          box.prop(g_tools, "mat_folder", text="")
+          box.operator(GetMaterials.bl_idname)
+          row = layout.row()
           row = layout.row()
           row.operator(Updater.bl_idname, text="Check Patch").action = "check"
           if checkUpdate:
@@ -123,7 +130,36 @@ class Updater(Operator):
           return {'FINISHED'}
 
 
-classes = [PT_Preferences, Updater]
+class GetMaterials(Operator):
+     bl_idname = "object.get_materials"
+     bl_label = "Get Materials"
+     def execute(self, context):
+          scene = context.scene
+          g_tools = scene.g_tools
+          matName = []
+          matFiles = G_Modul.find_meta_files(g_tools.mat_folder)
+          if matFiles is not None:
+               for path in matFiles:
+                    matFile = G_Modul.read_meta_file(path)
+                    id, name = G_Modul.get_meta(matFile)
+                    mat = []
+                    name = name.split("/")
+                    name = name[-1].split(".")
+                    name = name[0]
+                    #print(name + "_" + id)
+                    mat.append(name + "_" + id)
+                    mat.append(name)
+                    matName.append(mat)
+                    #print(matName)
+          #print(G_Geometry_Prams.Surface_Properties)
+          G_Geometry_Prams.Surface_Properties = matName
+          #G_Geometry_Prams.Surface_Properties.append(matName)
+          print(G_Geometry_Prams.Surface_Properties)
+          G_Geometry_Prams.enumSurface_Properties()
+          return {'FINISHED'}
+
+
+classes = [PT_Preferences, Updater, GetMaterials]
 
 
 def register():

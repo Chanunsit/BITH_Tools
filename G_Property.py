@@ -49,6 +49,7 @@ class MyProperties(PropertyGroup):
         )
 
     exportLocalList : StringProperty(name="Export Location List")
+    mat_folder : StringProperty(name="Materials Path", subtype='DIR_PATH')
     
 
 classes = [MyProperties]

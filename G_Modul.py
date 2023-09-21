@@ -7,6 +7,7 @@ import urllib.request
 import zipfile
 import json
 import textwrap
+import re
 #import requests
 
 from . import G_Geometry_Prams
@@ -363,3 +364,38 @@ def TextWrap(context, text, parent, line_height):
                 text_line = text_line.replace("$/s","") 
             row.label(text=text_line)
             row.scale_y = line_height
+            
+            
+def get_meta(meta_text):
+    pattern = r'Name "{(.*?)}(.*?)"'
+    match = re.search(pattern, meta_text)
+    if match:
+        id = match.group(1)
+        name = match.group(2)
+        return id, name
+    else:
+        return None, None
+    
+
+def find_meta_files(folder_path):
+    meta_files = []
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            if file.endswith(".meta"):
+                meta_files.append(os.path.join(root, file))
+
+    return meta_files
+
+
+def read_meta_file(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            # Read the contents of the .meta file
+            meta_contents = file.read()
+        return meta_contents
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+        return None
+    except Exception as e:
+        print(f"An error occurred while reading the file: {e}")
+        return None

@@ -183,58 +183,60 @@ def assign_material_button_callback(self, context):
 
 def iconSurface(label):
     icon = "SHADING_RENDERED"
-    if "metal_" in label.lower() or "Metal" in label or "iron_" in label.lower() or "linoleum" in label.lower() or "titanium" in label.lower():
+    _label = label.lower()
+    if "metal_" in _label or "Metal" in label or "iron_" in _label or "linoleum" in _label or "titanium" in _label:
         icon = "metal"
-    elif "armor_" in label.lower() or "Armor" in label:
+    elif "armor_" in _label or "Armor" in label:
         icon = "armor"
-    elif "fabric" in label.lower() or "carpet" in label.lower():
+    elif "fabric" in _label or "carpet" in _label:
         icon = "fabric"
-    elif "glass" in label.lower():
+    elif "glass" in _label:
         icon = "glass"
-    elif "grass_" in label.lower() or "Grass" in label or "seaweed" in label.lower():
+    elif "grass_" in _label or "Grass" in label or "seaweed" in _label:
         icon = "grass"
-    elif "paper" in label.lower():
+    elif "paper" in _label:
         icon = "paper"
-    elif "plastic_" in label.lower() or "Plastic" in label:
+    elif "plastic_" in _label or "Plastic" in label:
         icon = "plastic"
-    elif "rubber" in label.lower():
+    elif "rubber" in _label:
         icon = "rubber"
-    elif "pebbles" in label.lower() or "cobblestone" in label.lower() or "gravel" in label.lower() or "Stone" in label:
+    elif "pebbles" in _label or "cobblestone" in _label or "gravel" in _label or "Stone" in label:
         icon = "pebbles"
-    elif "tiles" in label.lower():
+    elif "tiles" in _label:
         icon = "tiles"
-    elif "vehicle" in label.lower():
+    elif "vehicle" in _label:
         icon = "vehicle"
-    elif "weapon_plastic" in label.lower() or "weapon_wood" in label.lower() or "weapon_metal" in label.lower():
+    elif "weapon_plastic" in _label or "weapon_wood" in _label or "weapon_metal" in _label:
         icon = "weapon"
-    elif "wood" in label.lower():
+    elif "wood" in _label:
         icon = "wood"
-    elif "snow" in label.lower() or "water" in label.lower() or "moss" in label.lower() or "ice" in label.lower():
+    elif "snow" in _label or "water" in _label or "moss" in _label or "ice" in _label:
         icon = "environment"
-    elif "brick" in label.lower():
+    elif "brick" in _label:
         icon = "brick"
-    elif "concrete" in label.lower():
+    elif "concrete" in _label:
         icon = "concrete"
-    elif "asphalt" in label.lower():
+    elif "asphalt" in _label:
         icon = "asphalt"
-    elif "flesh" in label.lower():
+    elif "flesh" in _label:
         icon = "flesh"
-    elif "foliage" in label.lower():
+    elif "foliage" in _label:
         icon = "foliage"
-    elif "dirt" in label.lower() or "skids" in label.lower() or "sand" in label.lower() or "sand_beach" in label.lower() or "soil" in label.lower():
+    elif "dirt" in _label or "skids" in _label or "sand" in _label or "sand_beach" in _label or "soil" in _label:
         icon = "dirt"
-    elif "_______________" in label.lower():
+    elif "_______________" in _label:
         icon = "void"
     else:
         icon = "mat_default"
     return icon
 # Create a material selection property
-bpy.types.Scene.Surface_Properties = bpy.props.EnumProperty(
-    items=[(label, label, "", G_Icon_reg.custom_icons[iconSurface(label)].icon_id, i) for i, (_, label) in enumerate(Surface_Properties)],
-    description="Surface_Properties",
-    update=material_selection_callback
-)
-
+def enumSurface_Properties():
+    bpy.types.Scene.Surface_Properties = bpy.props.EnumProperty(
+        items=[(label, label, "", G_Icon_reg.custom_icons[iconSurface(label)].icon_id, i) for i, (_, label) in enumerate(Surface_Properties)],
+        description="Surface_Properties",
+        update=material_selection_callback
+    )
+enumSurface_Properties()
 # Create an assign material button property
 bpy.types.Scene.assign_material_button_enabled = bpy.props.BoolProperty(default=False)
 
