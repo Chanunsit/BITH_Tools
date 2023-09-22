@@ -49,6 +49,8 @@ class MyProperties(PropertyGroup):
         )
 
     exportLocalList : StringProperty(name="Export Location List")
+    
+    custom_mat_panel : BoolProperty(name="Custom Material", default=False)
     mat_folder : StringProperty(name="Materials Path", subtype='DIR_PATH')
     
 

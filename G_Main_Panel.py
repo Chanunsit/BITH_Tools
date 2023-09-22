@@ -70,7 +70,10 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
                     bt = row.operator("object.assign_material", text="", icon="TRASH")
                     bt.action = "favRemove"
                     bt.type = s
-                
+            box = layout.box()
+            row = box.row()
+            row.prop(g_tools, "shareMat", text="", icon="MATERIAL")
+            row.operator("object.assign_share_material", text="", icon="MOD_LINEART").index = g_tools.shareMat
             # Add the assign layer preset button            
             layout.separator()
             row = layout.row()      
@@ -187,6 +190,7 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
                                 button = row.operator("object.checkobjcts", text="", icon="HIDE_OFF")
                             button.action = "hide"
                             button.objName = item
+           
 
         #-----------------------------------------LOD---------------------------------------------
         elif g_tools.toolTab == "LOD":
@@ -223,7 +227,10 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
             row = box.row()
             row.prop(g_tools, "shareMat", text="", icon="MATERIAL")
             row.operator("object.assign_share_material", text="", icon="MOD_LINEART").index = g_tools.shareMat
-            row = layout.row()
+            row = box.row()
+            row.prop(g_tools, "custom_mat_panel", text="Custom")
+            #row = layout.row()
+            
        #-----------------------------------------Web information---------------------------------------------
         elif g_tools.toolTab == "INFO":
             row = layout.row()

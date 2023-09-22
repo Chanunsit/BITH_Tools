@@ -25,6 +25,7 @@ from . import G_Preferences
 from . import G_Utility
 from . import G_Modul
 from . import G_Web_info
+from . import G_CustomMat
 
 
 
@@ -42,9 +43,11 @@ def register():
      G_Main_Panel.register()
      G_Property.register()
      G_LODAnalyze.register()
+     G_CustomMat.register()
      G_BatchExportPanel.register()
      G_Utility.register()
      G_Web_info.register()
+     
      
      G_Modul.addon_version = addon_version_string
      
@@ -60,6 +63,7 @@ def unregister():
      G_BatchExportPanel.unregister()
      G_Utility.unregister()
      G_Web_info.unregister()
+     G_CustomMat.unregister()
      
      
     

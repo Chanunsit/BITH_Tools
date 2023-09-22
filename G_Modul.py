@@ -381,7 +381,7 @@ def find_meta_files(folder_path):
     meta_files = []
     for root, dirs, files in os.walk(folder_path):
         for file in files:
-            if file.endswith(".meta"):
+            if file.endswith(".emat.meta"):
                 meta_files.append(os.path.join(root, file))
 
     return meta_files
