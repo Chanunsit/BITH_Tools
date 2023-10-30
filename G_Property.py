@@ -37,8 +37,7 @@ class MyProperties(PropertyGroup):
     shareMatList = G_Modul.loadJsonFile("share_mat", "resources")
     shareMat : EnumProperty(
     items=[(id, label, "") for i, (id, label) in enumerate(shareMatList)],
-    description="Share Material"
-    )
+    description="Share Material")
     
     infoTab : EnumProperty(
         name="Tab",
@@ -52,6 +51,12 @@ class MyProperties(PropertyGroup):
     
     custom_mat_panel : BoolProperty(name="Custom Material", default=False)
     mat_folder : StringProperty(name="Materials Path", subtype='DIR_PATH')
+    cusMatList = G_Modul.loadJsonFile("custom_mat", "resources")
+    if len(cusMatList) == 0:
+        cusMatList = shareMatList
+    cusMat : EnumProperty(name="Custom Material",
+    items=[(id, label, "") for i, (id, label) in enumerate(cusMatList)],
+    description="Custom Material")
     
 
 classes = [MyProperties]

@@ -223,12 +223,12 @@ class VIEW3D_PT_MainPanel(bpy.types.Panel):
             row = layout.row()
             row.label(text="Utility Tools")
             box = layout.box()
-            box.label(text="Share Material")
+            box.label(text="Custom Material")
             row = box.row()
-            row.prop(g_tools, "shareMat", text="", icon="MATERIAL")
-            row.operator("object.assign_share_material", text="", icon="MOD_LINEART").index = g_tools.shareMat
+            row.prop(g_tools, "cusMat", text="", icon="MATERIAL")
+            row.operator("object.custom_materials", text="", icon="MOD_LINEART").action = "set"
             row = box.row()
-            row.prop(g_tools, "custom_mat_panel", text="Custom")
+            row.prop(g_tools, "custom_mat_panel", text="Setting")
             #row = layout.row()
             
        #-----------------------------------------Web information---------------------------------------------

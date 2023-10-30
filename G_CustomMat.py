@@ -2,6 +2,7 @@ import bpy
 
 from . import G_Modul
 from . import G_Icon_reg
+from . import G_Property
 
 
 from bpy.props import (EnumProperty, PointerProperty, StringProperty, FloatVectorProperty, FloatProperty, IntProperty, BoolProperty)
@@ -32,6 +33,7 @@ class VIEW3D_PT_CustomMaterial(bpy.types.Panel):
         layout = self.layout
         row = layout.row()
         row.label(text="Directories")
+        row.operator("object.custom_materials", text="Load").action = "load"
         row.operator("object.custom_materials", text="", icon="ADD").action = "add"
         row = layout.row()
         if matDirList is not None:
@@ -65,7 +67,11 @@ class CustomMaterial(bpy.types.Operator):
     def execute(self, context):
         scene = context.scene
         g_tools = scene.g_tools
-        if self.action == "add":
+        if self.action == "load":
+            self.load(self, context)
+        elif self.action == "set":
+            self.set(self, context)
+        elif self.action == "add":
             self.add(self, context)
         elif self.action == "remove":
             self.remove(self, context)
@@ -74,6 +80,37 @@ class CustomMaterial(bpy.types.Operator):
         elif self.action == "yes":
             self.yes(self, context)
         return {'FINISHED'}
+    @staticmethod
+    def load(self, context):
+        scene = context.scene
+        g_tools = scene.g_tools
+        print(matDirList)
+        matName = []
+        for i in range(len(matDirList)):
+            matFiles = G_Modul.find_meta_files(matDirList[i])
+            if matFiles is not None:
+                for path in matFiles:
+                    matFile = G_Modul.read_meta_file(path)
+                    id, name = G_Modul.get_meta(matFile)
+                    mat = []
+                    name = name.split("/")
+                    name = name[-1].split(".")
+                    name = name[0]
+                    mat.append(name + "_" + id)
+                    mat.append(name)
+                    matName.append(mat)
+        print(matName)
+        G_Modul.saveJsonFile(matName, "custom_mat", "resources")
+        
+        return {'FINISHED'}
+    
+    @staticmethod
+    def set(self, context):
+        scene = context.scene
+        g_tools = scene.g_tools
+        print(g_tools.cusMat.items)
+        return {'FINISHED'}
+    
     @staticmethod
     def add(self, context):
         global matDirList
