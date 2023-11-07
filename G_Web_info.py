@@ -29,6 +29,10 @@ website_arma4 = [
     ("https://confluence.bistudio.com/pages/viewpage.action?spaceKey=ARMA4&postingDay=2022%2F11%2F7&title=Arma+Reforger+and+Arma+4+SVN+split",
     "Arma 4 SVN",
     "Link to access Arma 4 SVN"),
+    
+    ("https://confluence.bistudio.com/pages/viewpage.action?pageId=242868430",
+    "Light portals & model internal BSP trees",
+    "They are a solution for faking global $/nillumination effects by adding virtual lights $/ninto building portals, i.e., windows, doors, openings"),
 ]
 
 # Properties for storing the selected website and its description
