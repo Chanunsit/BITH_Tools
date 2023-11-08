@@ -16,8 +16,8 @@ class AssignShareMat(bpy.types.Operator):
         mat = G_Modul.create_material(index)
         activeObject.data.materials.append(mat)
         mat.use_nodes = True
-        index = index.split("/")
-        index = index.pop()
+        index = index.split("_")
+        index = index[0]
         if index == "Default":
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.ops.object.editmode_toggle()
