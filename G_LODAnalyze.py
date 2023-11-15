@@ -41,14 +41,14 @@ class OBJECT_OT_LODAnalyze(Operator):
     
     @staticmethod
     def isolate(self, context):
-        bpy.ops.object.mode_set(mode='OBJECT')
+        #bpy.ops.object.mode_set(mode='OBJECT')
         lodList = G_Modul.find_lod(G_Modul.get_object_name())
         bpy.context.area.ui_type = 'OUTLINER'
         bpy.ops.outliner.select_all()
         bpy.ops.outliner.unhide_all()
         bpy.context.area.ui_type = 'VIEW_3D'
         G_Modul.select_objects_by_name(lodList[self.index])
-        G_Modul.focus_object_in_outliner()
+        #G_Modul.focus_object_in_outliner()
         bpy.ops.object.hide_view_set(unselected=True)
         bpy.ops.object.select_all(action='DESELECT')
         return {'FINISHED'}

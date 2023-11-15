@@ -164,10 +164,13 @@ def triangle_call():
         return(num_triangles)
 
 def focus_object_in_outliner():
-    for area in [a for a in bpy.context.screen.areas if a.type == 'OUTLINER']:
-        for region in [r for r in area.regions if r.type == 'WINDOW']:
-            override = {'area':area, 'region': region}
-            bpy.ops.outliner.show_active(override)
+    try:
+        for area in [a for a in bpy.context.screen.areas if a.type == 'OUTLINER']:
+            for region in [r for r in area.regions if r.type == 'WINDOW']:
+                override = {'area':area, 'region': region}
+                bpy.ops.outliner.show_active(override)
+    except:
+        print("Focus object in outliner function error")
 
 def list_to_string(list):
     # Convert list to a JSON-formatted string
