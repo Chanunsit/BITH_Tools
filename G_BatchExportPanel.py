@@ -48,6 +48,12 @@ class VIEW3D_PT_BatchExport(Panel):
                     bt = row.operator("object.export_location", text="", icon="TRASH")
                     bt.action = "delete"
                     bt.index = i
+            row = layout.row()
+            row.label(text="Export Setting")
+            #checkbox toggle for export setting-------------------------------------------------------
+            row = layout.row()
+            row.prop(scene.export_scene_herachy, 'exportSceneHierarchy', text="Export Scene Hierarchy")
+            #-----------------------------------------------------------------------------------------
         else:
             row = layout.row()
             row.label(text="Request Enfusion Blender Tools")
@@ -115,8 +121,31 @@ class ExportLocation(Operator):
                                         self.report({'WARNING'}, "'ExportSceneHierarchy' not set 1 in meta file")
                             else:
                                 self.report({'INFO'}, 'ExportSceneHierarchy already set to 1')            
-                else:
-                    self.report({'INFO'}, 'Meta file not detected')
+                    else:
+                        self.report({'INFO'}, 'Meta file not detected')
+                #--------------------------------------------------------------------------------------------------------------------
+                #else if checkbox export scene hierarchy is checked
+                elif scene.export_scene_herachy.exportSceneHierarchy == True:
+                    # Get the directory of scene.FBXExportFolder
+                    export_folder = os.path.dirname(scene.FBXExportFolder)
+
+                    # Check if .xob.meta file exists in the directory
+                    meta_file_path = os.path.join(export_folder, context.collection.name + ".xob.meta")
+                    if os.path.isfile(meta_file_path):
+                        self.report({'INFO'}, 'Meta file detected')
+                        # Open the meta file
+                        with open(meta_file_path, 'r') as meta_file:
+                            content = meta_file.read()
+                            if "ExportSceneHierarchy" not in content:
+                                content = re.sub(r'FBXResourceClass PC {', r'FBXResourceClass PC {\n    ExportSceneHierarchy 1', content)
+                                # Write the modified content back to the meta file
+                                with open(meta_file_path, 'w') as modified_meta_file:
+                                    modified_meta_file.write(content)
+                                    self.report({'INFO'}, 'ExportSceneHierarchy set to 1')
+                                    if "ExportSceneHierarchy" not in content:
+                                        self.report({'WARNING'}, "'ExportSceneHierarchy' not set 1 in meta file")
+                    else:
+                        self.report({'INFO'}, 'Meta file not detected')
                 #--------------------------------------------------------------------------------------------------------------------
                 G_Modul.refresh_panel()
             except:
