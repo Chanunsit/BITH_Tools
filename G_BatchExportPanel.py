@@ -69,6 +69,12 @@ def locUpdate(self, context):
     #self.location = items[0][0] if items else ""
     return items
 
+class ExportSceneHerachy(bpy.types.PropertyGroup):
+    exportSceneHierarchy : BoolProperty(
+        name = "Export Scene Hierarchy",
+        description="Enable option Export Scene Hierarchy in enfusion engine",
+        default = False)
+
 class ExportLocation(Operator):
     bl_idname = "object.export_location"
     bl_label = "Export Location"
@@ -191,6 +197,9 @@ def register():
     bpy.utils.register_class(VIEW3D_PT_BatchExport)
     bpy.utils.register_class(ExportLocation)
     bpy.types.OUTLINER_MT_collection.prepend(export_location)
+    bpy.utils.register_class(ExportSceneHerachy)
+    bpy.types.Scene.export_scene_herachy = PointerProperty(type=ExportSceneHerachy)
+    
 
 
 
@@ -198,3 +207,6 @@ def unregister():
     bpy.utils.unregister_class(VIEW3D_PT_BatchExport)
     bpy.utils.unregister_class(ExportLocation)
     bpy.types.OUTLINER_MT_collection.remove(export_location)
+    bpy.utils.unregister_class(ExportSceneHerachy)
+    del bpy.types.Scene.export_scene_herachy
+    
