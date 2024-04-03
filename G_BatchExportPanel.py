@@ -1,6 +1,9 @@
 import typing
 import bpy
 
+import re
+import os
+
 from . import G_Modul
 
 from bpy.types import Menu, Operator, Panel
@@ -88,6 +91,33 @@ class ExportLocation(Operator):
                 scene = context.scene
                 scene.FBXExportFolder = self.location
                 bpy.ops.collection.batch_export_fbx()
+                # Check if the collection name contains 'dbr' and then set 'ExportSceneHierarchy' to 1 in the meta file
+                self.report({'INFO'}, f"Export completed successfully: {context.collection.name}")                
+                if 'dbr' in context.collection.name:
+                    self.report({'INFO'}, 'dbr detected in collection name')
+                    # Get the directory of scene.FBXExportFolder
+                    export_folder = os.path.dirname(scene.FBXExportFolder)
+
+                    # Check if .xob.meta file exists in the directory
+                    meta_file_path = os.path.join(export_folder, context.collection.name + ".xob.meta")
+                    if os.path.isfile(meta_file_path):
+                        self.report({'INFO'}, 'Meta file detected')
+                        # Open the meta file
+                        with open(meta_file_path, 'r') as meta_file:
+                            content = meta_file.read()
+                            if "ExportSceneHierarchy" not in content:
+                                content = re.sub(r'FBXResourceClass PC {', r'FBXResourceClass PC {\n    ExportSceneHierarchy 1', content)
+                                # Write the modified content back to the meta file
+                                with open(meta_file_path, 'w') as modified_meta_file:
+                                    modified_meta_file.write(content)
+                                    self.report({'INFO'}, 'ExportSceneHierarchy set to 1')
+                                    if "ExportSceneHierarchy" not in content:
+                                        self.report({'WARNING'}, "'ExportSceneHierarchy' not set 1 in meta file")
+                            else:
+                                self.report({'INFO'}, 'ExportSceneHierarchy already set to 1')            
+                else:
+                    self.report({'INFO'}, 'Meta file not detected')
+                #--------------------------------------------------------------------------------------------------------------------
                 G_Modul.refresh_panel()
             except:
                 self.report({"INFO"} ,"Request Enfusion Blender Tools")
