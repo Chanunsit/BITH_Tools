@@ -108,7 +108,7 @@ class ExportLocation(Operator):
                 if 'dbr' in context.collection.name:
                     self.report({'INFO'}, 'dbr detected in collection name')
                     # Get the directory of scene.FBXExportFolder
-                    export_folder = os.path.dirname(scene.FBXExportFolder)
+                    export_folder = os.path.realpath(bpy.path.abspath(scene.FBXExportFolder))
 
                     # Check if .xob.meta file exists in the directory
                     meta_file_path = os.path.join(export_folder, context.collection.name + ".xob.meta")
@@ -133,7 +133,7 @@ class ExportLocation(Operator):
                 #else if checkbox export scene hierarchy is checked
                 elif scene.export_scene_herachy.exportSceneHierarchy == True:
                     # Get the directory of scene.FBXExportFolder
-                    export_folder = os.path.dirname(scene.FBXExportFolder)
+                    export_folder = os.path.realpath(bpy.path.abspath(scene.FBXExportFolder))                    
 
                     # Check if .xob.meta file exists in the directory
                     meta_file_path = os.path.join(export_folder, context.collection.name + ".xob.meta")
@@ -150,6 +150,8 @@ class ExportLocation(Operator):
                                     self.report({'INFO'}, 'ExportSceneHierarchy set to 1')
                                     if "ExportSceneHierarchy" not in content:
                                         self.report({'WARNING'}, "'ExportSceneHierarchy' not set 1 in meta file")
+                            else:
+                                self.report({'INFO'}, 'ExportSceneHierarchy already set to 1')
                     else:
                         self.report({'INFO'}, 'Meta file not detected')
                 #--------------------------------------------------------------------------------------------------------------------
